@@ -3,13 +3,14 @@ package com.appointments.calendar.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table
 public class Appointment {
     @Id
     @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
-    private String id;
+    private UUID id;
     @Column
     private Integer duration;
     @Column
@@ -22,12 +23,8 @@ public class Appointment {
     @OneToOne
     private Patient patient;
 
-    public String getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Integer getDuration() {

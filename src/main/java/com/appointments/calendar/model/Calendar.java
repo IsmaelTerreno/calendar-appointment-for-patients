@@ -1,27 +1,32 @@
 
 package com.appointments.calendar.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table
 public class Calendar {
     @Id
+    @GeneratedValue
     @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
-    private String id;
+    private UUID id;
+    @Column
+    private String name;
     @OneToMany
     List<Appointment> appointments;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Appointment> getAppointments() {
