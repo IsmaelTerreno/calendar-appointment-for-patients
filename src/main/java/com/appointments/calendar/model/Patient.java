@@ -2,7 +2,7 @@
 package com.appointments.calendar.model;
 
 import javax.persistence.*;
-import java.util.List;
+import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
 
 @Entity
@@ -13,14 +13,13 @@ public class Patient {
     @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
     private UUID id;
     @Column
+    @NotEmpty
     private String name;
     @Column
+    @NotEmpty
     private String email;
     @Column
     private String telephone;
-
-    @OneToMany
-    private List<Appointment> appointments;
 
     public UUID getId() {
         return id;
@@ -50,11 +49,4 @@ public class Patient {
         this.telephone = telephone;
     }
 
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
 }

@@ -2,6 +2,7 @@
 package com.appointments.calendar.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,9 +13,10 @@ public class Calendar {
     @GeneratedValue
     @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
     private UUID id;
-    @Column
+    @Column(unique = true)
+    @NotNull
     private String name;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     List<Appointment> appointments;
 
     public UUID getId() {

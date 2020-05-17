@@ -37,4 +37,15 @@ public class CalendarAPI {
         return repository.save(calendar);
     }
 
+    @GetMapping("/find-calendar-name/{name}")
+    public List<Calendar> findAll(@PathVariable(value = "name") String name) {
+        return repository.findByNameIsContaining(name);
+    }
+
+    @PostMapping("{name}/appointment/create")
+    public Calendar newAppointment(@PathVariable(value = "name") String name, @RequestBody Appointment appointment) {
+        Calendar calendar = repository.findByName(name);
+        calendar.getAppointments().add(appointment);
+        return repository.save(calendar);
+    }
 }
