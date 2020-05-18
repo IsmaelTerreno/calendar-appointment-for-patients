@@ -1,0 +1,15 @@
+version: "3"
+services:
+  db:
+    image: "postgres:11"
+    container_name: "my_postgres"
+    environment:
+      - POSTGRES_USER=homer
+      - POSTGRES_PASSWORD=homer123
+      - POSTGRES_DB=homer
+    ports:
+      - "5432:5432"
+    volumes:
+      - my_dbdata1:/var/lib/postgresql/data
+volumes:
+  my_dbdata1:
