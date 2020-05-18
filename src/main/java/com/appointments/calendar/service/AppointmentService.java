@@ -64,7 +64,7 @@ public class AppointmentService {
                     long dateToDiff = ChronoUnit.MINUTES.between(
                             calendarDateUtils.toLocalDateTime(appointment.getDateTo()),
                             calendarDateUtils.toLocalDateTime(timeSlot.getDateTo()));
-                    return  (dateFromDiff <= 1 && dateToDiff >= 0);
+                    return  (dateFromDiff <= 0 && dateToDiff >= 0);
                 }).collect(Collectors.toList());
                timeSlot.setAppointments(slotAppointments);
                return timeSlot;
