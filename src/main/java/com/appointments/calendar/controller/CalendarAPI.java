@@ -29,7 +29,7 @@ public class CalendarAPI {
         this.appointmentService = appointmentService;
     }
 
-    @GetMapping("{name}/free-time-slots/year/{year}/month/{month}/day/{day}")
+    @GetMapping("{name}/time-slots/year/{year}/month/{month}/day/{day}")
     public ResponseEntity<List<Slot>> findFreeTimeSlots(
             @PathVariable(value = "name") String name,
             @PathVariable(value = "year") String year,
