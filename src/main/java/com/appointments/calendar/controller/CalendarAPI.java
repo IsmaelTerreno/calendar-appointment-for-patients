@@ -1,7 +1,7 @@
 package com.appointments.calendar.controller;
 
 
-import com.appointments.calendar.adapter.Slot;
+import com.appointments.calendar.adapter.TimeSlot;
 import com.appointments.calendar.model.Appointment;
 import com.appointments.calendar.model.Calendar;
 import com.appointments.calendar.service.AppointmentService;
@@ -30,14 +30,14 @@ public class CalendarAPI {
     }
 
     @GetMapping("{name}/time-slots/year/{year}/month/{month}/day/{day}")
-    public ResponseEntity<List<Slot>> findFreeTimeSlots(
+    public ResponseEntity<List<TimeSlot>> findFreeTimeSlots(
             @PathVariable(value = "name") String name,
             @PathVariable(value = "year") String year,
             @PathVariable(value = "month") String month,
             @PathVariable(value = "day") String day
     ) throws ParseException {
-        List<Slot> slots = appointmentService.findFreeTimeSlots(name, year, month, day);
-        return new ResponseEntity<>(slots, HttpStatus.FOUND);
+        List<TimeSlot> timeSlots = appointmentService.findFreeTimeSlots(name, year, month, day);
+        return new ResponseEntity<>(timeSlots, HttpStatus.FOUND);
     }
 
     @PostMapping("/create")
@@ -60,4 +60,5 @@ public class CalendarAPI {
         if(appointmentCreated != null){ return new ResponseEntity<>(appointment, HttpStatus.CREATED); }
             else { return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);}
     }
+
 }

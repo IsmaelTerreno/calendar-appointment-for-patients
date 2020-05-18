@@ -1,7 +1,7 @@
 
 package com.appointments.calendar.service;
 
-import com.appointments.calendar.adapter.Slot;
+import com.appointments.calendar.adapter.TimeSlot;
 import com.appointments.calendar.model.Appointment;
 import com.appointments.calendar.model.Calendar;
 import com.appointments.calendar.repository.AppointmentRepository;
@@ -34,13 +34,13 @@ public class AppointmentService {
         this.calendarDateUtils = calendarDateUtils;
     }
 
-    public List<Slot> findFreeTimeSlots(
+    public List<TimeSlot> findFreeTimeSlots(
       String nameCalendar,
       String year,
       String month,
       String day
     ) throws ParseException {
-        List<Slot> slots = new ArrayList<>();
+        List<TimeSlot> timeSlots = new ArrayList<>();
         Date workingFrom = calendarDateUtils.formatDateForCalendar(year, month, day, calendarDateUtils.getWorkingHoursFrom());
         Date workingTo = calendarDateUtils.formatDateForCalendar(year, month, day, calendarDateUtils.getWorkingHoursTo());
         List<Appointment> appointments = appointmentRepository.findByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
@@ -48,29 +48,29 @@ public class AppointmentService {
             workingFrom,
             workingTo
         );
-        if(appointments.size() < 1){ return slots; }
+        if(appointments.size() < 1){ return timeSlots; }
         long limitWorkHours =  (workingTo.getTime() - workingFrom.getTime()) / (60 * 60 * 1000);
         List<LocalDateTime> timeRanges = calendarDateUtils.generateDatesFromRange(workingFrom, limitWorkHours);
-        slots = timeRanges.stream()
-            .map(timeSlot-> new Slot(
+        timeSlots = timeRanges.stream()
+            .map(timeSlot-> new TimeSlot(
                 calendarDateUtils.toDateDefault(timeSlot),
                 calendarDateUtils.toDateDefault(timeSlot.plusHours(1))
             ))
-            .map(slot -> {
+            .map(timeSlot -> {
                 List<Appointment> slotAppointments = appointments.stream().filter(appointment -> {
                     long dateFromDiff = ChronoUnit.MINUTES.between(
                             calendarDateUtils.toLocalDateTime(appointment.getDateFrom()),
-                            calendarDateUtils.toLocalDateTime(slot.getDateFrom()));
+                            calendarDateUtils.toLocalDateTime(timeSlot.getDateFrom()));
                     long dateToDiff = ChronoUnit.MINUTES.between(
                             calendarDateUtils.toLocalDateTime(appointment.getDateTo()),
-                            calendarDateUtils.toLocalDateTime(slot.getDateTo()));
+                            calendarDateUtils.toLocalDateTime(timeSlot.getDateTo()));
                     return  (dateFromDiff <= 1 && dateToDiff >= 0);
                 }).collect(Collectors.toList());
-               slot.setAppointments(slotAppointments);
-               return slot;
+               timeSlot.setAppointments(slotAppointments);
+               return timeSlot;
             })
             .collect(Collectors.toList());
-        return slots;
+        return timeSlots;
     }
 
     public Appointment create(String nameCalendar, Appointment appointment) throws ParseException {
