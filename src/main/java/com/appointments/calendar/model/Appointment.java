@@ -19,7 +19,10 @@ public class Appointment {
     private Integer durationInMinutes;
     @Column
     @NotNull
-    private Date date;
+    private Date dateFrom;
+    @Column
+    @NotNull
+    private Date dateTo;
     @Column
     @NotEmpty
     private String title;
@@ -27,8 +30,17 @@ public class Appointment {
     @NotEmpty
     private String detail;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE })
-    @NotNull
     private Patient patient;
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE } , fetch = FetchType.LAZY)
+    private Calendar calendar;
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
 
     public UUID getId() {
         return id;
@@ -42,12 +54,20 @@ public class Appointment {
         this.durationInMinutes = durationInMinutes;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateFrom() {
+        return dateFrom;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
+    }
+
+    public Date getDateTo() {
+        return dateTo;
+    }
+
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
     }
 
     public String getTitle() {
