@@ -29,7 +29,7 @@ public class Appointment {
     @Column
     @NotEmpty
     private String detail;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE })
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE }, fetch = FetchType.LAZY)
     private Patient patient;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE } , fetch = FetchType.LAZY)
     private Calendar calendar;
