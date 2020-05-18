@@ -4,7 +4,9 @@ package com.appointments.calendar.service;
 import com.appointments.calendar.model.Calendar;
 import com.appointments.calendar.repository.CalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,7 +19,10 @@ public class CalendarService {
     }
 
     public Calendar create(Calendar calendar){
-       return calendarRepository.save(calendar);
+        Calendar calendarFound = calendarRepository.findByName(calendar.getName());
+        if(calendarFound != null){ throw new ResponseStatusException( HttpStatus.CONFLICT, "Calendar name already exist, use another unique name.");}
+        calendar = calendarRepository.save(calendar);
+       return calendar;
     }
 
     public List<Calendar> findAllByName(String name){

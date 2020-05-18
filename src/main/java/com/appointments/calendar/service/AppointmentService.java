@@ -8,7 +8,9 @@ import com.appointments.calendar.repository.AppointmentRepository;
 import com.appointments.calendar.repository.CalendarRepository;
 import com.appointments.calendar.utils.CalendarDateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
@@ -78,7 +80,7 @@ public class AppointmentService {
     public Appointment create(String nameCalendar, Appointment appointment) throws ParseException {
         Calendar calendar = calendarRepository.findByName(nameCalendar);
         appointment.setCalendar(calendar);
-        if(calendar == null) {return null;}
+        if(calendar == null) {throw new ResponseStatusException( HttpStatus.NOT_ACCEPTABLE, "Calendar name not exist, please use and existing calendar name to create the appointment.");}
         final long durationInMinutes = calendarDateUtils.getDurationInMinutesFrom(appointment.getDateFrom(),appointment.getDateTo());
         if(
                 calendarDateUtils.isValidDurationInMinutes(durationInMinutes) &&
