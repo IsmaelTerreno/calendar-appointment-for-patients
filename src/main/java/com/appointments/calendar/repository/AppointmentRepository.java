@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, String> {
-    List<Appointment> findByCalendar_NameAndDateFromIsGreaterThanAndDateToIsLessThan(
+    List<Appointment> findByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
             String nameCalendar, Date dateFrom, Date dateTo);
 }

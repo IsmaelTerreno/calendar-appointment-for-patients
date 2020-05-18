@@ -56,9 +56,7 @@ public class CalendarAPI {
 
     @PostMapping("{name}/appointment/create")
     public ResponseEntity<Appointment> newAppointment(@PathVariable(value = "name") String name, @RequestBody Appointment appointment) {
-        Calendar calendar = calendarService.findByName(name);
-        appointment.setCalendar(calendar);
-        appointmentService.create(appointment);
+        appointmentService.create(name, appointment);
         return new ResponseEntity<>(appointment, HttpStatus.CREATED);
     }
 }

@@ -1,14 +1,14 @@
 package com.appointments.calendar.adapter;
 
+import com.appointments.calendar.model.Appointment;
+
 import java.util.Date;
+import java.util.List;
 
 public class Slot {
     private Date dateFrom;
     private Date dateTo;
-    private Boolean confirmed;
-
-    public Slot() {
-    }
+    private List<Appointment> appointments;
 
     public Slot(Date dateFrom, Date dateTo) {
         this.dateFrom = dateFrom;
@@ -31,11 +31,11 @@ public class Slot {
         this.dateTo = dateTo;
     }
 
-    public Boolean getConfirmed() {
-        return confirmed;
+    public List<Appointment> getAppointments() {
+        return appointments;
     }
 
-    public void setConfirmed(Boolean confirmed) {
-        this.confirmed = confirmed;
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }
