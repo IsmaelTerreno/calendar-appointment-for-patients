@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -69,8 +70,29 @@ public class CalendarDateUtils {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         cal.setTime(date);
         String year = String.valueOf(cal.get(Calendar.YEAR));
-        String month = String.valueOf(cal.get(Calendar.MONTH));
+        String month = String.valueOf(cal.get(Calendar.MONTH) + 1);
         String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
         return new String[]{year, month, day};
+    }
+
+    public Boolean isDuringWorkingHours (Date from, Date to) throws ParseException {
+        String[] yearMonthDay = getYearMonthDayFromDate(from);
+        final Date fromWorking = dateFormatParse(dateFormat(yearMonthDay[0], yearMonthDay[1],yearMonthDay[2], workingHoursFrom));
+        final Date toWorking = dateFormatParse(dateFormat(yearMonthDay[0], yearMonthDay[1] ,yearMonthDay[2], workingHoursTo));
+        long durationFrom = getDurationInMinutesFrom(fromWorking, from);
+        long durationTo = getDurationInMinutesFrom(to, toWorking);
+        Boolean isFromValid = durationFrom > 0;
+        Boolean isToValid = durationTo > 0;
+        return isFromValid && isToValid;
+    }
+
+    public long getDurationInMinutesFrom(Date from, Date to){
+        return ChronoUnit.MINUTES.between(
+                        toLocalDateTime(from),
+                        toLocalDateTime(to));
+    }
+
+    public Boolean isValidDurationInMinutes(long durationInMinutes) {
+        return (durationInMinutes == 15 || durationInMinutes == 60);
     }
 }

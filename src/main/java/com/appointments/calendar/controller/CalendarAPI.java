@@ -51,12 +51,13 @@ public class CalendarAPI {
         List<Calendar> calendars = calendarService.findAllByName(name);
         return (calendars.size() > 0 ) ?
             new ResponseEntity<>(calendars, HttpStatus.FOUND):
-            new ResponseEntity<>(calendars, HttpStatus.NOT_FOUND);
+            new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("{name}/appointment/create")
     public ResponseEntity<Appointment> newAppointment(@PathVariable(value = "name") String name, @RequestBody Appointment appointment) throws ParseException {
-        appointmentService.create(name, appointment);
-        return new ResponseEntity<>(appointment, HttpStatus.CREATED);
+        Appointment appointmentCreated = appointmentService.create(name, appointment);
+        if(appointmentCreated != null){ return new ResponseEntity<>(appointment, HttpStatus.CREATED); }
+            else { return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);}
     }
 }

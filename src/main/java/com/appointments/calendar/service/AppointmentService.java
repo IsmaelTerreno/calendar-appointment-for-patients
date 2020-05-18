@@ -76,11 +76,11 @@ public class AppointmentService {
     public Appointment create(String nameCalendar, Appointment appointment) throws ParseException {
         Calendar calendar = calendarRepository.findByName(nameCalendar);
         appointment.setCalendar(calendar);
-        long durationInMinutes = ChronoUnit.MINUTES.between(
-                calendarDateUtils.toLocalDateTime(appointment.getDateFrom()),
-                calendarDateUtils.toLocalDateTime(appointment.getDateTo()));
+        if(calendar == null) {return null;}
+        final long durationInMinutes = calendarDateUtils.getDurationInMinutesFrom(appointment.getDateFrom(),appointment.getDateTo());
         if(
-                durationInMinutes == 15 || durationInMinutes == 60
+                calendarDateUtils.isValidDurationInMinutes(durationInMinutes) &&
+                calendarDateUtils.isDuringWorkingHours(appointment.getDateFrom(), appointment.getDateTo())
         ){
             Integer appointmentsFound = appointmentRepository.countAllByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
                 nameCalendar,
@@ -91,7 +91,7 @@ public class AppointmentService {
                 return appointmentRepository.save(appointment);
             }
         }
-        return appointment;
+        return null;
     }
 
 }
