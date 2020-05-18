@@ -55,7 +55,7 @@ public class CalendarAPI {
     }
 
     @PostMapping("{name}/appointment/create")
-    public ResponseEntity<Appointment> newAppointment(@PathVariable(value = "name") String name, @RequestBody Appointment appointment) {
+    public ResponseEntity<Appointment> newAppointment(@PathVariable(value = "name") String name, @RequestBody Appointment appointment) throws ParseException {
         appointmentService.create(name, appointment);
         return new ResponseEntity<>(appointment, HttpStatus.CREATED);
     }

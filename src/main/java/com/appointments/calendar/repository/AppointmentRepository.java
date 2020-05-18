@@ -11,4 +11,6 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, String> {
     List<Appointment> findByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
             String nameCalendar, Date dateFrom, Date dateTo);
+    Integer countAllByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
+                String nameCalendar, Date dateFrom, Date dateTo);
 }
