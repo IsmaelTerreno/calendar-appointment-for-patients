@@ -100,7 +100,7 @@ public class AppointmentService {
         Long affectedRows = appointmentRepository.deleteAllByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
            nameCalendar, from, to
         );
-       return (affectedRows > 0);
+       return (affectedRows >= 0);
     }
     @Transactional
     public Boolean deleteById(String id){
