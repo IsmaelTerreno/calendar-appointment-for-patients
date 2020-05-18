@@ -54,11 +54,22 @@ public class CalendarAPI {
             new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("{name}/appointment/create")
+    @PostMapping("{name}/appointment")
     public ResponseEntity<Appointment> newAppointment(@PathVariable(value = "name") String name, @RequestBody Appointment appointment) throws ParseException {
         Appointment appointmentCreated = appointmentService.create(name, appointment);
         if(appointmentCreated != null){ return new ResponseEntity<>(appointment, HttpStatus.CREATED); }
             else { return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);}
     }
 
+    @DeleteMapping("{name}/appointment/timeSlot")
+    public ResponseEntity<Appointment> deleteAppointmentsTimeSlot(@PathVariable(value = "name") String name, @RequestBody TimeSlot timeSlot){
+        if(appointmentService.deleteFromTo(name,timeSlot.getDateFrom(), timeSlot.getDateTo()) ){ return new ResponseEntity<>(null, HttpStatus.OK); }
+                    else { return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);}
+    }
+
+    @DeleteMapping("{name}/appointment/{id}")
+    public ResponseEntity<Appointment> deleteAppointmentByID(@PathVariable(value = "name") String name, @PathVariable(value = "id") String id){
+        if(appointmentService.deleteById(id) ){ return new ResponseEntity<>(null, HttpStatus.OK); }
+                    else { return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);}
+    }
 }

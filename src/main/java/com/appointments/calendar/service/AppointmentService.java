@@ -10,12 +10,14 @@ import com.appointments.calendar.utils.CalendarDateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,5 +95,16 @@ public class AppointmentService {
         }
         return null;
     }
-
+    @Transactional
+    public Boolean deleteFromTo(String nameCalendar, Date from, Date to){
+        Long affectedRows = appointmentRepository.deleteAllByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
+           nameCalendar, from, to
+        );
+       return (affectedRows > 0);
+    }
+    @Transactional
+    public Boolean deleteById(String id){
+        appointmentRepository.deleteById(UUID.fromString(id));
+        return Boolean.TRUE;
+    }
 }
