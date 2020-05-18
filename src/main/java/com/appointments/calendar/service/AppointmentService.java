@@ -44,6 +44,8 @@ public class AppointmentService {
       String month,
       String day
     ) throws ParseException {
+        Calendar calendarFound = calendarRepository.findByName(nameCalendar);
+        if(calendarFound == null){ throw new ResponseStatusException( HttpStatus.NOT_ACCEPTABLE, "Calendar name no exist, use another unique name to show results.");}
         List<TimeSlot> timeSlots = new ArrayList<>();
         Date workingFrom = calendarDateUtils.formatDateForCalendar(year, month, day, calendarDateUtils.getWorkingHoursFrom());
         Date workingTo = calendarDateUtils.formatDateForCalendar(year, month, day, calendarDateUtils.getWorkingHoursTo());
