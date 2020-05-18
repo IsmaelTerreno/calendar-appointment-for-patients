@@ -81,8 +81,8 @@ public class CalendarDateUtils {
         final Date toWorking = dateFormatParse(dateFormat(yearMonthDay[0], yearMonthDay[1] ,yearMonthDay[2], workingHoursTo));
         long durationFrom = getDurationInMinutesFrom(fromWorking, from);
         long durationTo = getDurationInMinutesFrom(to, toWorking);
-        Boolean isFromValid = durationFrom > 0;
-        Boolean isToValid = durationTo > 0;
+        Boolean isFromValid = durationFrom >= 0;
+        Boolean isToValid = durationTo >= 0;
         return isFromValid && isToValid;
     }
 
