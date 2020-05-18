@@ -82,9 +82,6 @@ public class AppointmentService {
         if(
                 durationInMinutes == 15 || durationInMinutes == 60
         ){
-            String[] yearMonthDay = calendarDateUtils.getYearMonthDayFromDate(appointment.getDateFrom());
-            Date workingFrom = calendarDateUtils.formatDateForCalendar(yearMonthDay[0], yearMonthDay[1], yearMonthDay[2], calendarDateUtils.getWorkingHoursFrom());
-            Date workingTo = calendarDateUtils.formatDateForCalendar(yearMonthDay[0], yearMonthDay[1], yearMonthDay[2], calendarDateUtils.getWorkingHoursTo());
             Integer appointmentsFound = appointmentRepository.countAllByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
                 nameCalendar,
                 appointment.getDateFrom(),
