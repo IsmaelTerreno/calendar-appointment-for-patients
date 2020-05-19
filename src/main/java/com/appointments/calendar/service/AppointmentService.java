@@ -88,25 +88,29 @@ public class AppointmentService {
             });
     }
 
-    public Appointment create(String nameCalendar, Appointment appointment) throws ParseException {
+    public Appointment create(String nameCalendar, Appointment appointment) throws ParseException  {
         Calendar calendar = calendarRepository.findByName(nameCalendar);
         appointment.setCalendar(calendar);
         if(calendar == null) {throw new ResponseStatusException( HttpStatus.NOT_ACCEPTABLE, "Calendar name not exist, please use and existing calendar name to create the appointment.");}
         final long durationInMinutes = calendarDateUtils.getDurationInMinutesFrom(appointment.getDateFrom(),appointment.getDateTo());
-        if(
-                calendarDateUtils.isValidDurationInMinutes(durationInMinutes) &&
-                calendarDateUtils.isDuringWorkingHours(appointment.getDateFrom(), appointment.getDateTo())
-        ){
-            Integer appointmentsFound = appointmentRepository.countAllByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
-                nameCalendar,
-                appointment.getDateFrom(),
-                appointment.getDateTo()
-            );
-            if(appointmentsFound < 1){
-                return appointmentRepository.save(appointment);
-            }
+        if(!calendarDateUtils.isValidDurationInMinutes(durationInMinutes)) {
+            throw new ResponseStatusException( HttpStatus.NOT_ACCEPTABLE, "Two durations allowed: 60 minutes and 15 minutes. Please change duration time.");
         }
-        return null;
+        if(!calendarDateUtils.isDuringWorkingHours(appointment.getDateFrom(), appointment.getDateTo())) {
+            throw new ResponseStatusException( HttpStatus.NOT_ACCEPTABLE,
+                    "The appointment could be booked during the working hours of the day " + calendarDateUtils.getWorkingHoursFrom() + " to " + calendarDateUtils.getWorkingHoursTo() +" hs"
+            );
+        }
+        Integer appointmentsFound = appointmentRepository.countAllByCalendar_NameAndDateFromIsGreaterThanEqualAndDateToIsLessThanEqual(
+            nameCalendar,
+            appointment.getDateFrom(),
+            appointment.getDateTo()
+        );
+        if(appointmentsFound > 0 ){
+            throw new ResponseStatusException( HttpStatus.NOT_ACCEPTABLE, "Only one appointment is permitted at a given time slot try other date time.");
+        } else {
+            return appointmentRepository.save(appointment);
+        }
     }
     @Transactional
     public Boolean deleteFromTo(String nameCalendar, Date from, Date to){
