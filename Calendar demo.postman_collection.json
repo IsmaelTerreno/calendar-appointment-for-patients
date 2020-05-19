@@ -143,53 +143,7 @@
 			"response": []
 		},
 		{
-			"name": "4. Create appointment in calendar at 2020-05-17 11:00 to 12:00",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "5b035b39-bbda-4cd0-9391-612e40dc0ac4",
-						"exec": [
-							"pm.test(\"Create an appointment in calendar\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"title\": \"Monthly general checking\",\n\t\"detail\": \"Just a general checking how the patient is for cover.\",\n\t\"dateFrom\": \"2020-05-17 11:00\",\n\t\"dateTo\": \"2020-05-17 12:00\",\n\t\"patient\": {\n\t\t\"name\": \"Banner Hulk\",\n\t\t\"email\": \"banner@bunkerheroes.example.com\",\n\t\t\"telephone\": \"9999999999\"\n\t}\n}\t",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/v1/calendar/orthodontic-calendar/appointment",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"calendar",
-						"orthodontic-calendar",
-						"appointment"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "5. Create appointment in calendar at 2020-05-17 09:00 to 09:15",
+			"name": "4. Create appointment in calendar at 2020-05-17 09:00 to 09:15",
 			"event": [
 				{
 					"listen": "test",
@@ -209,7 +163,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"title\": \"Monthly general checking\",\n\t\"detail\": \"Just a general checking how the patient is for cover.\",\n\t\"dateFrom\": \"2020-05-17 09:00\",\n\t\"dateTo\": \"2020-05-17 09:15\",\n\t\"patient\": {\n\t\t\"name\": \"Logan Wolverine\",\n\t\t\"email\": \"logan@bunkerheroes.example.com\",\n\t\t\"telephone\": \"9999999999\"\n\t}\n}\t",
+					"raw": "{\n\t\"title\": \"Monthly general checking\",\n\t\"detail\": \"Just a general checking how the patient is for cover.\",\n\t\"dateFrom\": \"2020-05-17 08:00\",\n\t\"dateTo\": \"2020-05-17 08:15\",\n\t\"patient\": {\n\t\t\"name\": \"Logan Wolverine\",\n\t\t\"email\": \"logan@bunkerheroes.example.com\",\n\t\t\"telephone\": \"9999999999\"\n\t}\n}\t",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -235,7 +189,7 @@
 			"response": []
 		},
 		{
-			"name": "6. Create appointment in calendar at 2020-05-17 09:15 to 09:30",
+			"name": "5. Create appointment in calendar at 2020-05-17 09:15 to 09:30",
 			"event": [
 				{
 					"listen": "test",
@@ -281,7 +235,7 @@
 			"response": []
 		},
 		{
-			"name": "7. Create appointment in calendar at 2020-05-17 10:15 to 10:30",
+			"name": "6. Create appointment in calendar at 2020-05-17 10:15 to 10:30",
 			"event": [
 				{
 					"listen": "test",
@@ -327,7 +281,99 @@
 			"response": []
 		},
 		{
-			"name": "8. Check and show free time slots",
+			"name": "7. Create appointment in calendar at 2020-05-17 11:00 to 12:00",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5b035b39-bbda-4cd0-9391-612e40dc0ac4",
+						"exec": [
+							"pm.test(\"Create an appointment in calendar\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Monthly general checking\",\n\t\"detail\": \"Just a general checking how the patient is for cover.\",\n\t\"dateFrom\": \"2020-05-17 11:00\",\n\t\"dateTo\": \"2020-05-17 12:00\",\n\t\"patient\": {\n\t\t\"name\": \"Banner Hulk\",\n\t\t\"email\": \"banner@bunkerheroes.example.com\",\n\t\t\"telephone\": \"9999999999\"\n\t}\n}\t",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/calendar/orthodontic-calendar/appointment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"calendar",
+						"orthodontic-calendar",
+						"appointment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Create appointment in calendar at 2020-05-17 13:45 to 14:45",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c579a2a6-e77b-458c-b734-3c26e2b52ac0",
+						"exec": [
+							"pm.test(\"Create an appointment in calendar\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Monthly general checking\",\n\t\"detail\": \"Just a general checking how the patient is for cover.\",\n\t\"dateFrom\": \"2020-05-17 13:45\",\n\t\"dateTo\": \"2020-05-17 14:45\",\n\t\"patient\": {\n\t\t\"name\": \"Dr Strange\",\n\t\t\"email\": \"drstrange@bunkerheroes.example.com\",\n\t\t\"telephone\": \"9999999999\"\n\t}\n}\t",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/calendar/orthodontic-calendar/appointment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"calendar",
+						"orthodontic-calendar",
+						"appointment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Check and show free time slots",
 			"event": [
 				{
 					"listen": "test",
