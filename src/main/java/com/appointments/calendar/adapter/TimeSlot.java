@@ -1,18 +1,24 @@
 package com.appointments.calendar.adapter;
 
-import com.appointments.calendar.model.Appointment;
-
 import java.util.Date;
-import java.util.List;
 
 public class TimeSlot {
     private Date dateFrom;
     private Date dateTo;
-    private List<Appointment> appointments;
+    private Boolean isFreeTimeSlot;
+    private String appointmentTitle;
 
     public TimeSlot(Date dateFrom, Date dateTo) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
+    }
+
+    public String getAppointmentTitle() {
+        return appointmentTitle;
+    }
+
+    public void setAppointmentTitle(String appointmentTitle) {
+        this.appointmentTitle = appointmentTitle;
     }
 
     public Date getDateFrom() {
@@ -31,11 +37,11 @@ public class TimeSlot {
         this.dateTo = dateTo;
     }
 
-    public List<Appointment> getAppointments() {
-        return appointments;
+    public Boolean getFreeTimeSlot() {
+        return isFreeTimeSlot;
     }
 
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
+    public void setFreeTimeSlot(Boolean freeTimeSlot) {
+        isFreeTimeSlot = freeTimeSlot;
     }
 }

@@ -15,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,28 +54,38 @@ public class AppointmentService {
             workingTo
         );
         if(appointments.size() < 1){ return timeSlots; }
-        long limitWorkHours =  (workingTo.getTime() - workingFrom.getTime()) / (60 * 60 * 1000);
-        List<LocalDateTime> timeRanges = calendarDateUtils.generateDatesFromRange(workingFrom, limitWorkHours);
+        final long limitWorkHours = calendarDateUtils.getDurationInMinutesFrom(workingFrom,workingTo);
+        List<LocalDateTime> timeRanges = calendarDateUtils.generateDatesFromRangeInMinutes(workingFrom, limitWorkHours);
         timeSlots = timeRanges.stream()
             .map(timeSlot-> new TimeSlot(
                 calendarDateUtils.toDateDefault(timeSlot),
-                calendarDateUtils.toDateDefault(timeSlot.plusHours(1))
+                calendarDateUtils.toDateDefault(timeSlot)
             ))
-            .map(timeSlot -> {
-                List<Appointment> slotAppointments = appointments.stream().filter(appointment -> {
-                    long dateFromDiff = ChronoUnit.MINUTES.between(
-                            calendarDateUtils.toLocalDateTime(appointment.getDateFrom()),
-                            calendarDateUtils.toLocalDateTime(timeSlot.getDateFrom()));
-                    long dateToDiff = ChronoUnit.MINUTES.between(
-                            calendarDateUtils.toLocalDateTime(appointment.getDateTo()),
-                            calendarDateUtils.toLocalDateTime(timeSlot.getDateTo()));
-                    return  (dateFromDiff <= 0 && dateToDiff >= 0);
-                }).collect(Collectors.toList());
-               timeSlot.setAppointments(slotAppointments);
-               return timeSlot;
+            .peek(timeSlot -> {
+                checkIfFreeTimeSlot(appointments, timeSlot);
             })
             .collect(Collectors.toList());
         return timeSlots;
+    }
+
+    private void checkIfFreeTimeSlot (List<Appointment> appointments, TimeSlot timeSlot){
+        timeSlot.setAppointmentTitle("");
+        timeSlot.setFreeTimeSlot(true);
+        appointments
+            .forEach((appointment) -> {
+                LocalDateTime timeSlotDateTo = calendarDateUtils.toLocalDateTime(timeSlot.getDateTo());
+                LocalDateTime timeSlotDateFrom = calendarDateUtils.toLocalDateTime(timeSlot.getDateFrom());
+                LocalDateTime appointmentDateTo = calendarDateUtils.toLocalDateTime(appointment.getDateTo());
+                LocalDateTime appointmentDateFrom = calendarDateUtils.toLocalDateTime(appointment.getDateFrom());
+                boolean isBeforeTo = timeSlotDateTo.isBefore(appointmentDateTo);
+                boolean isEqualTo = timeSlotDateTo.isEqual(appointmentDateTo);
+                boolean isAfterFrom = timeSlotDateFrom.isAfter(appointmentDateFrom);
+                boolean isEqualFrom = timeSlotDateFrom.isEqual(appointmentDateFrom);
+                if((isBeforeTo || isEqualTo) && (isAfterFrom || isEqualFrom)){
+                    timeSlot.setFreeTimeSlot(false);
+                    timeSlot.setAppointmentTitle(appointment.getTitle() + " - " + appointment.getPatient().getName());
+                }
+            });
     }
 
     public Appointment create(String nameCalendar, Appointment appointment) throws ParseException {

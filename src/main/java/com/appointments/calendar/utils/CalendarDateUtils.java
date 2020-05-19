@@ -39,8 +39,8 @@ public class CalendarDateUtils {
         return workingHoursTo;
     }
 
-    public List<LocalDateTime> generateDatesFromRange(Date dateFrom, long limit){
-       return Stream.iterate(toLocalDateTime(dateFrom), date -> date.plusHours(1))
+    public List<LocalDateTime> generateDatesFromRangeInMinutes(Date dateFrom, long limit){
+       return Stream.iterate(toLocalDateTime(dateFrom), date -> date.plusMinutes(1))
                    .limit(limit)
                    .collect(Collectors.toList());
     }
